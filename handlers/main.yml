@@ -2,3 +2,10 @@
 # handlers file for haproxy
 - name: restart haproxy
   service: name=haproxy state=restarted
+
+- name: test config and restart haproxy
+  command: /usr/sbin/haproxy -f {{ config_location }} -c
+  register: command_result
+  failed_when: command_result.rc != 0
+  notify: restart haproxy
+

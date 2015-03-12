@@ -107,5 +107,5 @@
 
 - name: 'Assemble the final configuration file'
   assemble: src={{ etc_prefix }}/haproxy/conf.d dest={{ config_location }} backup=yes
-  notify: restart haproxy
+  notify: test config and restart haproxy
   tags: 'test'
