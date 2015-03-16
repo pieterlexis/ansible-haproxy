@@ -83,29 +83,30 @@
 - name: 'Build up the global config'
   template: src=global.cfg dest={{ etc_prefix }}/haproxy/conf.d/01-global.cfg
   when: haproxy_global is defined
+  notify: 'Assemble the final configuration file'
   tags: 'test'
 
 - name: 'Build up the default config'
   template: src=defaults.cfg dest={{ etc_prefix }}/haproxy/conf.d/02-defaults.cfg
   when: haproxy_defaults is defined
+  notify: 'Assemble the final configuration file'
 
 - name: 'Build up the frontends'
   template: src=frontend.cfg dest={{ etc_prefix }}/haproxy/conf.d/03-frontends.cfg
   when: haproxy_frontends is defined
+  notify: 'Assemble the final configuration file'
 
 - name: 'Build up the backends'
   template: src=backend.cfg dest={{ etc_prefix }}/haproxy/conf.d/04-backends.cfg
   when: haproxy_backends is defined
+  notify: 'Assemble the final configuration file'
 
 - name: 'Build up the listen sections'
   template: src=listen.cfg dest={{ etc_prefix }}/haproxy/conf.d/05-listen.cfg
   when: haproxy_listen is defined
+  notify: 'Assemble the final configuration file'
 
 - name: 'Build up the userlist sections'
   template: src=userlist.cfg dest={{ etc_prefix }}/haproxy/conf.d/06-userlists.cfg
   when: haproxy_userlists is defined
-
-- name: 'Assemble the final configuration file'
-  assemble: src={{ etc_prefix }}/haproxy/conf.d dest={{ config_location }} backup=yes
-  notify: test config and restart haproxy
-  tags: 'test'
+  notify: 'Assemble the final configuration file'
